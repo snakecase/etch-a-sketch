@@ -1,17 +1,20 @@
 .grid-container {
   border: 10px solid lightgray;
-  padding: 80px;
+  padding: 20px;
   width: 700px;
   height: 700px;
   display: grid;
   box-sizing: border-box;
-  grid-gap: 1rem;
+  grid-gap: 0px;
 }
 
-.cell {
-  border: 3px solid black;
+.reset-btn {
+  width: 100px;
+  height: 30px;
+  margin: 0 0 10px 0;
+  background-color: white;
 }
 
-.cell:hover{
-  background-color: black;
+.blink-black {
+  border: 10px solid black;
 }
