@@ -1,32 +1,34 @@
 `use strict`;
 
 const askGrid = function () {
-  let num = prompt(`How many squares per side? (max. 100 or it will hang)`);
-
-  if (isNaN(num)) {
+  let input = prompt(`How many squares per side? (max. 100 or it will hang)`);
+  if (isNaN(input) || /\s/.test(input)) {
     alert(`Only numbers please.`);
     return askGrid();
-  } else if (num > 100) {
-    alert(`100 is maximum because it's hard for Browser to render so much squares at once. Don't make it sad.`);
+  } else if (input > 100) {
+    alert(`100 is maximum because it's hard for Browser to render so much squares at once. Don't make it sad. Setting 100x100...`);
     return 100;
-  } else if (num === null || num === '') {
+  } else if (!input) {
     return `canceled`;
   }
 
-  return Math.round(num);
+  return Math.round(Math.abs(input));
 }
 
 const gradeColor = function (cell) {
-  // Gives e.g. `rgb(255, 255, 255)`
-  let splitRGB = cell.style.backgroundColor.split(/\W/);
+  if (!cell.style.backgroundColor) {
+    const color = `rgba(0, 0, 0, 0)`;
+    cell.style.backgroundColor = color;
+  }
 
-  // Darken by ~25%
-  let mod = Math.round(255 * 0.25);
-  let r = splitRGB[1] - mod;
-  let g = splitRGB[3] - mod;
-  let b = splitRGB[5] - mod;
-
-  cell.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+  let splitRGB = cell.style.backgroundColor.split(/[^0-9.]/);
+  
+  // Increase color by ~10%
+  let r = splitRGB[5];
+  let g = splitRGB[7];
+  let b = splitRGB[9];
+  let o = Number(splitRGB[11]) + 0.1;
+  cell.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${o})`;
 }
 
 const listenCells = function () {
@@ -36,47 +38,50 @@ const listenCells = function () {
   });
 }
 
-const blink = function () {
-  let container = document.querySelector(`.grid-container`);
-
+const blink = function (container) {
+  container.classList.add(`blink-black`);
   setTimeout(() => {
-    container.classList.toggle(`blink-black`);
-  }, 300);
-
-  container.classList.toggle(`blink-black`);
+    container.classList.remove(`blink-black`);
+  }, 400);
 }
 
-const createGrid = function (num) {
-  const container = document.querySelector(`.grid-container`);
-
-  // Prompt if function was called without an argument
-  if (!num) {
-    num = askGrid();
-    if (num === `canceled`) return;
-    blink();
-  }
-
-  // Reset grid
+const resetGrid = function (container) {
   while (container.firstChild) {
     container.removeChild(container.firstChild);
   }
+}
 
+const createGrid = function (num) {
+  const container = document.getElementById(`grid-container`);
+
+  // Prompt if createGrid was called without an argument
+  if (!num) {
+    num = askGrid();
+    // If no input or cancel were given, don't reset the grid
+    if (num === `canceled`) return;
+    blink(container);
+  }
+
+  resetGrid(container);
+
+  // Generate cells
   for (let i = 1; i <= num * num; i++) {
     const cell = document.createElement(`div`);
     cell.classList.add(`cell`, `cell-${i}`);
-    cell.style.backgroundColor = `rgb(255, 255, 255)`;
     container.appendChild(cell);
   }
 
-  // Edit css grid: set rows/columns equal to num
+  // Edit css grid: set rows & columns equal to num
   container.style.gridTemplate = `repeat(${num}, 1fr) / repeat(${num}, 1fr)`;
-
   listenCells();
 }
 
-const button = document.querySelector(`.reset-btn`);
-button.addEventListener(`click`, () => {
-  createGrid();
-});
+const listenResetButton = function () {
+  const button = document.getElementById(`reset-btn`);
+  button.addEventListener(`click`, () => {
+    createGrid();
+  });
+}
 
-createGrid(64);
+createGrid(16);
+listenResetButton();
