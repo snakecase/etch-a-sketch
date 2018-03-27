@@ -1,4 +1,11 @@
-.grid-container {
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+body {
+  width: 700px;
+  margin: 70px 0 0 30%;
+  font-family: 'Press Start 2P', cursive;
+}
+
+#grid-container {
   border: 10px solid lightgray;
   padding: 20px;
   width: 700px;
@@ -6,15 +13,27 @@
   display: grid;
   box-sizing: border-box;
   grid-gap: 0px;
+  background-color: white;
 }
 
-.reset-btn {
+#grid-container.blink-black {
+  border: 10px solid black;
+}
+
+#reset-btn {
   width: 100px;
   height: 30px;
   margin: 0 0 10px 0;
   background-color: white;
+  font-family: 'Press Start 2P', cursive;
 }
 
-.blink-black {
-  border: 10px solid black;
+#reset-btn:focus {
+  outline: 0;
+}
+
+#header {
+  display: inline;
+  vertical-align: top;
+  margin-left: 7%;
 }
