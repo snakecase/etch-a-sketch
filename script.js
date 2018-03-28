@@ -41,10 +41,10 @@ const listenCells = function () {
 const blink = function (container) {
   setTimeout(() => {
     container.classList.add(`blink-black`);
-  }, 350);
+  }, 250);
   setTimeout(() => {
     container.classList.remove(`blink-black`);
-  }, 600);
+  }, 500);
 }
 
 const resetGrid = function (container) {
