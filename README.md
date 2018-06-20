@@ -1,8 +1,9 @@
 # Etch-A-Sketch
-A primitive graphical editor made as a part of The Odin Project's curriculum.  
-Technically it's a grid of divs which change color on mouseovers.
 
 ### [Live!](https://snakecase.github.io/etch-a-sketch/)
+
+A primitive graphical editor made as a part of The Odin Project's curriculum.  
+Technically it's a grid of divs which change color on mouseovers.
 
 ## Features
 
